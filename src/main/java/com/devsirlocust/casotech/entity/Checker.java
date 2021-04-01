@@ -1,5 +1,8 @@
 package com.devsirlocust.casotech.entity;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Checker {
 
   private final int IVA = 19;
@@ -8,8 +11,8 @@ public class Checker {
   public Bill finalBillCreate(final Bill bill) {
     double totalAmount = bill.getTotalAmount();
     if (totalAmount > 70_000 && totalAmount <= 100_000) {
-      bill.setTotalAmount(this.generateIVA(totalAmount));
-      bill.setTotalAmount(totalAmount + costDelivery);
+
+      bill.setTotalAmount(this.generateIVA(totalAmount) + costDelivery);
     }
     if (totalAmount > 100_000) {
       bill.setTotalAmount(this.generateIVA(totalAmount));

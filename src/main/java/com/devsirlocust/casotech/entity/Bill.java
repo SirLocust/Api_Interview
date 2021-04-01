@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Bill {
 
+  private String id;
   private String client;
   private String address;
   private double totalAmount;
@@ -35,6 +36,18 @@ public class Bill {
 
   public void setDate(final LocalDateTime date) {
     this.date = date;
+  }
+
+  public String generateId() {
+    return String.valueOf(Math.round(Math.random() * 1000)) + this.getClient();
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
 }
