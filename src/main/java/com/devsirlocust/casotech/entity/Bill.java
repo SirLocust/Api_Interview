@@ -7,15 +7,27 @@ public class Bill {
   private String id;
   private String client;
   private String address;
+  private double amount;
+  private double priceDelivery;
+  private double valueIVA;
   private double totalAmount;
   private LocalDateTime date;
+
+  public void generateIVA(int iva) {
+    this.setValueIVA((amount * iva) / 100);
+
+  }
+
+  public void generateTotalAmount() {
+    this.setTotalAmount(this.amount + this.priceDelivery + this.valueIVA);
+  }
 
   public String getClient() {
     return this.client;
   }
 
   public String getAddress() {
-    return address;
+    return this.address;
   }
 
   public void setAddress(final String address) {
@@ -23,15 +35,15 @@ public class Bill {
   }
 
   public double getTotalAmount() {
-    return totalAmount;
+    return this.totalAmount;
   }
 
-  public void setTotalAmount(final double totalAmount) {
+  private void setTotalAmount(final double totalAmount) {
     this.totalAmount = totalAmount;
   }
 
   public LocalDateTime getDate() {
-    return date;
+    return this.date;
   }
 
   public void setDate(final LocalDateTime date) {
@@ -43,11 +55,35 @@ public class Bill {
   }
 
   public String getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public double getAmount() {
+    return this.amount;
+  }
+
+  // public void setAmount(double amount) {
+  // this.amount = amount;
+  // }
+
+  public double getPriceDelivery() {
+    return this.priceDelivery;
+  }
+
+  public void setPriceDelivery(final double priceDelivery) {
+    this.priceDelivery = priceDelivery;
+  }
+
+  public double getValueIVA() {
+    return this.valueIVA;
+  }
+
+  private void setValueIVA(final double iVA) {
+    this.valueIVA = iVA;
   }
 
 }
