@@ -1,7 +1,9 @@
 package com.devsirlocust.casotech.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.devsirlocust.casotech.entity.Bill;
 
@@ -43,5 +45,18 @@ public class FakeDataBase {
     }
     this.dataBase.set(whereIs, bill);
     return bill;
+  }
+
+  public boolean deleteBill(final String id) {
+    // this.dataBase.removeIf(billtmp -> billtmp.getId().equals(bill.getId()));
+    ListIterator<Bill> it = this.dataBase.listIterator();
+    while (it.hasNext()) {
+      if (it.next().getId().equals(id)) {
+        it.remove();
+        return true;
+      }
+    }
+
+    return false;
   }
 }

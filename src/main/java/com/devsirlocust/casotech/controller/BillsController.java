@@ -10,7 +10,9 @@ import com.devsirlocust.casotech.service.FakeDataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,4 +67,21 @@ public class BillsController {
 
   }
 
+  @DeleteMapping("/bills/{id}")
+  public ResponseEntity<?> delete(@PathVariable("id") String idBill) {
+    double costDelete = checker.finalBillDelete(fakeDataBase.searchById(idBill));
+
+    boolean wasDelete = fakeDataBase.deleteBill(idBill);
+
+    if (!wasDelete) {
+      return new ResponseEntity<>("error , not removed bill", HttpStatus.BAD_REQUEST);
+    }
+
+    if (costDelete > 0) {
+      return new ResponseEntity<>("you have one cost for cansel  : " + costDelete, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<>("bill delete Correct", HttpStatus.OK);
+
+  }
 }

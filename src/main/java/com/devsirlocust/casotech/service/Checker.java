@@ -1,5 +1,7 @@
 package com.devsirlocust.casotech.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import com.devsirlocust.casotech.entity.Bill;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class Checker {
 
   private final int IVA = 19;
-  private final double costDelivery = 5000;
+  private final double CONST_DELIVERY = 5000;
 
   public Bill finalBillCreate(final Bill bill) {
     double amount = bill.getAmount();
@@ -18,7 +20,7 @@ public class Checker {
       return null;
     }
     if (amount > 70_000 && amount <= 100_000) {
-      bill.setPriceDelivery(this.costDelivery);
+      bill.setPriceDelivery(this.CONST_DELIVERY);
 
     }
     bill.generateIVA(this.IVA);
@@ -28,7 +30,7 @@ public class Checker {
   }
 
   public Bill finalBillUpdate(Bill oldBill, Bill newBill) {
-    if (compareToHours(oldBill, newBill) > 300) {
+    if (compareToHours(oldBill.getDate(), newBill.getDate()) > 300) {
       return null;
     }
     if (oldBill.getAmount() > newBill.getAmount()) {
@@ -43,8 +45,15 @@ public class Checker {
     return newBill;
   }
 
-  public long compareToHours(final Bill oldBill, final Bill newBill) {
+  public long compareToHours(final LocalDateTime oldTime, final LocalDateTime newTime) {
 
-    return ChronoUnit.MINUTES.between(oldBill.getDate(), newBill.getDate());
+    return ChronoUnit.MINUTES.between(oldTime, newTime);
+  }
+
+  public double finalBillDelete(Bill bill) {
+    if (compareToHours(bill.getDate(), LocalDateTime.now()) > 720) {
+      return bill.generateCostCanselation();
+    }
+    return 0;
   }
 }

@@ -66,10 +66,6 @@ public class Bill {
     return this.amount;
   }
 
-  // public void setAmount(double amount) {
-  // this.amount = amount;
-  // }
-
   public double getPriceDelivery() {
     return this.priceDelivery;
   }
@@ -80,6 +76,10 @@ public class Bill {
 
   public double getValueIVA() {
     return this.valueIVA;
+  }
+
+  public double generateCostCanselation() {
+    return (this.amount * 10) / 100;
   }
 
   private void setValueIVA(final double iVA) {
