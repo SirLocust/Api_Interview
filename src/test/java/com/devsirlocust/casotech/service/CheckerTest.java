@@ -9,7 +9,6 @@ import com.devsirlocust.casotech.entity.Bill;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.hamcrest.*;
 
 class CheckerTest {
 
@@ -26,7 +25,7 @@ class CheckerTest {
     billOld.setDate(LocalDateTime.now());
     billNew.setDate(billOld.getDate().plusHours(5));
 
-    long time = checker.compareToHours(billOld, billNew);
+    long time = checker.compareToHours(billOld.getDate(), billNew.getDate());
 
     // assertThat(time, LessOrEqual(300));
     assertEquals(300, time);

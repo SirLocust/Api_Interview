@@ -1,7 +1,9 @@
 package com.devsirlocust.casotech.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.devsirlocust.casotech.entity.Bill;
 import com.devsirlocust.casotech.service.Checker;
@@ -36,11 +38,13 @@ public class BillsController {
 
   @PostMapping("/bills")
   public ResponseEntity<?> save(@RequestBody Bill bill) {
+    Map<String, Object> response = new HashMap<>();
     bill.setId(bill.generateId());
     bill.setDate(LocalDateTime.now());
     Bill newBill = checker.finalBillCreate(bill);
     if (newBill == null) {
-      return new ResponseEntity<>("No cumples con los requisitos", HttpStatus.BAD_REQUEST);
+      response.put("Message", "the total value of your order must be greater than 70,000 ");
+      return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
     }
     fakeDataBase.save(newBill);
     return new ResponseEntity<>(newBill, HttpStatus.OK);
@@ -49,18 +53,24 @@ public class BillsController {
 
   @PutMapping("/bills")
   public ResponseEntity<?> update(@RequestBody Bill newBill) {
+    Map<String, Object> response = new HashMap<>();
     Bill oldBill = fakeDataBase.searchById(newBill.getId());
+
     if (oldBill == null) {
-      return new ResponseEntity<>("Bill not found,verify your id bill", HttpStatus.NOT_FOUND);
+      response.put("Message", "Bill not found,verify your id bill");
+      return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     Bill billCheck = checker.finalBillUpdate(oldBill, newBill);
 
     if (billCheck == null) {
-      return new ResponseEntity<>("change impossible, the time of change was exhausted", HttpStatus.REQUEST_TIMEOUT);
+      response.put("Message", "change impossible, the time of change was exhausted");
+      return new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
     }
     Bill billUpdated = fakeDataBase.update(newBill);
     if (billUpdated == null) {
-      return new ResponseEntity<>("error , item not has saved", HttpStatus.INTERNAL_SERVER_ERROR);
+      response.put("Message", "error , item not has saved");
+
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     return new ResponseEntity<>(billUpdated, HttpStatus.OK);
@@ -69,19 +79,31 @@ public class BillsController {
 
   @DeleteMapping("/bills/{id}")
   public ResponseEntity<?> delete(@PathVariable("id") String idBill) {
-    double costDelete = checker.finalBillDelete(fakeDataBase.searchById(idBill));
+    Map<String, Object> response = new HashMap<>();
+    Bill searchBill = fakeDataBase.searchById(idBill);
+    if (searchBill == null) {
+      response.put("Message", "error , bill not found");
+
+      return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    double costDelete = checker.finalBillDelete(searchBill);
 
     boolean wasDelete = fakeDataBase.deleteBill(idBill);
 
     if (!wasDelete) {
-      return new ResponseEntity<>("error , not removed bill", HttpStatus.BAD_REQUEST);
+      response.put("Message", "error , not removed bill");
+
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     if (costDelete > 0) {
-      return new ResponseEntity<>("you have one cost for cansel  : " + costDelete, HttpStatus.OK);
-    }
+      response.put("Message", "you have one cost for cancel  : " + costDelete);
 
-    return new ResponseEntity<>("bill delete Correct", HttpStatus.OK);
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    response.put("Message", "bill delete Correct");
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
 
   }
 }
