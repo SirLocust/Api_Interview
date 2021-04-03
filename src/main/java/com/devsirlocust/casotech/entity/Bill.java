@@ -86,4 +86,12 @@ public class Bill {
     this.valueIVA = iVA;
   }
 
+  public void setClient(String client) {
+    this.client = client;
+  }
+
+  public void setAmount(double amount) {
+    this.amount = amount;
+  }
+
 }

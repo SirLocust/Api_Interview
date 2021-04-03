@@ -39,8 +39,7 @@ public class BillsController {
   @PostMapping("/bills")
   public ResponseEntity<?> save(@RequestBody Bill bill) {
     Map<String, Object> response = new HashMap<>();
-
-    if (bill.getClient() == null || bill.getAddress() == null) {
+    if (bill.getClient() == null || bill.getAddress() == null || bill.getAmount() == 0) {
       response.put("Message", "the bill need a client and an address");
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -63,6 +62,12 @@ public class BillsController {
     Map<String, Object> response = new HashMap<>();
     Bill oldBill = fakeDataBase.searchById(newBill.getId());
 
+    if (newBill.getClient() == null || newBill.getAddress() == null || newBill.getId() == null
+        || newBill.getAmount() == 0) {
+      response.put("Message", "the bill need a id,client,address and amount");
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     if (oldBill == null) {
       response.put("Message", "Bill not found,verify your id bill");
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -71,7 +76,7 @@ public class BillsController {
 
     if (billCheck == null) {
       response.put("Message", "change impossible, the time of change was exhausted");
-      return new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     Bill billUpdated = fakeDataBase.update(newBill);
     if (billUpdated == null) {

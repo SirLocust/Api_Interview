@@ -6,15 +6,19 @@ import java.time.temporal.ChronoUnit;
 
 import com.devsirlocust.casotech.entity.Bill;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Checker {
 
+  Logger logger = LoggerFactory.getLogger(Checker.class);
   private final int IVA = 19;
   private final double CONST_DELIVERY = 5000;
 
   public Bill finalBillCreate(final Bill bill) {
+
     double amount = bill.getAmount();
     if (amount <= 70_000) {
       return null;
