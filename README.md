@@ -1,6 +1,19 @@
-# Welcome to My Api!
+# Welcome to My API for Challenge BackEnd!
 
-# Authentication
+## Index
+
+    - API documentation
+    - Default Data
+
+# API documentation
+
+## URL
+
+```
+	localhost:8080/api
+```
+
+## Authentication
 
 ### POST /login
 
@@ -168,7 +181,7 @@ delete one existing bill
 
 ### Example Request
 
-    https://tmpurl/api/2314125
+    localhost:8080/api/2314125
 
 ### Example Response
 
@@ -176,4 +189,112 @@ delete one existing bill
   {
   	"Message": "bill delete Correct"
   }
+```
+
+# Default Data
+
+data was generated for ease of manual testing
+
+## Return Data
+
+```
+[
+    {
+        "id": "23456",
+        "client": "12345",
+        "address": "Calle 1 # 3-3",
+        "amount": 87555.0,
+        "priceDelivery": 5000.0,
+        "valueIVA": 16635.45,
+        "totalAmount": 109190.45,
+        "date": "2021-04-03T15:43:19.0989343"
+    },
+    {
+        "id": "12345",
+        "client": "23456",
+        "address": "Calle 2 # 6-6",
+        "amount": 104000.0,
+        "priceDelivery": 0.0,
+        "valueIVA": 19760.0,
+        "totalAmount": 123760.0,
+        "date": "2021-04-03T15:43:19.0989343"
+    },
+    {
+        "id": "12346",
+        "client": "23456",
+        "address": "Calle 2 # 6-6",
+        "amount": 93333.0,
+        "priceDelivery": 5000.0,
+        "valueIVA": 17733.27,
+        "totalAmount": 116066.27,
+        "date": "2021-04-03T11:23:19.0989343"
+    },
+    {
+        "id": "34567",
+        "client": "232345",
+        "address": "Calle 7 # 12-12",
+        "amount": 105333.0,
+        "priceDelivery": 0.0,
+        "valueIVA": 20013.27,
+        "totalAmount": 125346.27,
+        "date": "2021-04-03T10:23:19.0989343"
+    },
+    {
+        "id": "45679",
+        "client": "232345",
+        "address": "Calle 7 # 12-12",
+        "amount": 105333.0,
+        "priceDelivery": 0.0,
+        "valueIVA": 20013.27,
+        "totalAmount": 125346.27,
+        "date": "2021-04-03T08:23:19.0989343"
+    },
+    {
+        "id": "45678",
+        "client": "232345",
+        "address": "Calle 7 # 12-12",
+        "amount": 105333.0,
+        "priceDelivery": 0.0,
+        "valueIVA": 20013.27,
+        "totalAmount": 125346.27,
+        "date": "2021-04-03T03:23:19.0989343"
+    }
+]
+```
+
+## Case 2.2
+
+use the following registrys to test CASES
+change the "amount"
+
+```
+	{
+        "id": "12346",
+        "amount": 93333.0,
+  },
+
+```
+
+```
+	{
+        "id": "34567",
+        "amount": 105333.0
+  },
+
+```
+
+## Case 3
+
+use the following registrys to test CASES
+
+Less That 12 Hours
+
+```
+	localhost:8080/api/45679
+```
+
+Less That 12 Hours
+
+```
+	localhost:8080/api/45678
 ```
