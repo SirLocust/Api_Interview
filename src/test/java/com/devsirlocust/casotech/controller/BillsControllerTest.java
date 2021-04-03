@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -35,6 +36,7 @@ public class BillsControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @WithMockUser("admin")
   @Test
   @DisplayName("Should List All Bills when making GET request to endpoit - /api/bills")
   public void shouldListAllBills() throws Exception {
@@ -42,9 +44,10 @@ public class BillsControllerTest {
     mockMvc.perform(MockMvcRequestBuilders.get("/api/bills")).andExpect(MockMvcResultMatchers.status().is(200));
   }
 
+  @WithMockUser("admin")
   @Test
-  @DisplayName("Should create new bill with price  when making POST request to endpoit - /api/bills")
-  public void shouldCreateNewBill() throws Exception {
+  @DisplayName("Should create new bill with price is range 70001-100000  when making POST request to endpoit - /api/bills")
+  public void shouldCreateNewBillPrice75_000() throws Exception {
 
     Bill bill = new Bill();
 
@@ -62,7 +65,34 @@ public class BillsControllerTest {
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(8)))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.priceDelivery").value(5000));
+        .andExpect(MockMvcResultMatchers.jsonPath("$.priceDelivery").value(5000))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.valueIVA").value(14250));
+  }
+
+  @WithMockUser("admin")
+  @Test
+  @DisplayName("Should create new bill with price is range 70001-100000  when making POST request to endpoit - /api/bills")
+  public void shouldCreateNewBillPrice100_000() throws Exception {
+
+    Bill bill = new Bill();
+
+    bill.setAddress("calle 435");
+    bill.setClient("123423");
+    bill.setAmount(104000);
+    bill.setPriceDelivery(0);
+    bill.generateIVA(19);
+    bill.generateTotalAmount();
+
+    when(checker.finalBillCreate(any(Bill.class))).thenReturn(bill);
+    String jsonBill = new ObjectMapper().writeValueAsString(bill);
+    mockMvc
+        .perform(MockMvcRequestBuilders.post("/api/bills").contentType(MediaType.APPLICATION_JSON).content(jsonBill)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(8)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.priceDelivery").value(0))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.valueIVA").value(19760));
+
     ;
 
   }

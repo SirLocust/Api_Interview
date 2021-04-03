@@ -36,14 +36,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests().antMatchers("/").permitAll().antMatchers(HttpMethod.POST, "/api/bills")
-        .permitAll();
-    // http.authorizeRequests()
-    // .anyRequest().authenticated().and()
-    // .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-    // .addFilter(new
-    // JWTAuthorizationFIlter(authenticationManager())).csrf().disable().sessionManagement()
-    // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.authorizeRequests().anyRequest().authenticated().and()
+        .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+        .addFilter(new JWTAuthorizationFIlter(authenticationManager())).csrf().disable().sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
   }
 }
