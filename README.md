@@ -107,7 +107,7 @@ not have
 
 ### Example Response
 
-```
+```mvn
   {
   	"id":  "97512345",
   	"client":  "12345",
@@ -138,13 +138,10 @@ not have
 ### Example Request
 
 ```
-  {
+{
    	"id": "97512345",
-  	"client": "12345",
-  	"address": "11# 14-08",
-  	"amount": 120000.0,
-  	"date": "2021-04-02T23:25:27.3166369"
-  }
+  	"amount": 120000.0
+}
 ```
 
 ### Example Response
