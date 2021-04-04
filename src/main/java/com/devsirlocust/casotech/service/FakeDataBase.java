@@ -102,11 +102,21 @@ public class FakeDataBase {
     bill4.setId("34567");
     bill4.setClient("232345");
     bill4.setAddress("Calle 7 # 12-12");
-    bill4.setAmount(105_333);
-    bill4.setPriceDelivery(0);
+    bill4.setAmount(70_000);
+    bill4.setPriceDelivery(5000);
     bill4.generateIVA(19);
     bill4.generateTotalAmount();
-    bill4.setDate(LocalDateTime.now().minusHours(5).minusMinutes(20));
+    bill4.setDate(LocalDateTime.now().minusHours(4).minusMinutes(20));
+
+    Bill bill7 = new Bill();
+    bill7.setId("34562");
+    bill7.setClient("232345");
+    bill7.setAddress("Calle 7 # 12-12");
+    bill7.setAmount(89_000);
+    bill7.setPriceDelivery(5000);
+    bill7.generateIVA(19);
+    bill7.generateTotalAmount();
+    bill7.setDate(LocalDateTime.now().minusHours(5).minusMinutes(20));
 
     Bill bill5 = new Bill();
     bill5.setId("45679");
@@ -132,6 +142,7 @@ public class FakeDataBase {
     defaulData.add(bill2);
     defaulData.add(bill3);
     defaulData.add(bill4);
+    defaulData.add(bill7);
     defaulData.add(bill5);
     defaulData.add(bill6);
 
