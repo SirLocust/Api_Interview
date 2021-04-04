@@ -3,19 +3,15 @@ package com.devsirlocust.casotech.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-
 import com.devsirlocust.casotech.entity.Bill;
 import com.devsirlocust.casotech.service.Checker;
 import com.devsirlocust.casotech.service.FakeDataBase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -92,6 +88,58 @@ public class BillsControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(8)))
         .andExpect(MockMvcResultMatchers.jsonPath("$.priceDelivery").value(0))
         .andExpect(MockMvcResultMatchers.jsonPath("$.valueIVA").value(19760));
+
+    ;
+
+  }
+
+  @WithMockUser("admin")
+  @Test
+  @DisplayName("Should modific existing bill when time is more that required  when making PUT request to endpoit - /api/bills")
+  public void should_Update_Bill_when_time_is_more() throws Exception {
+
+    Bill bill = new Bill();
+    bill.setId("12323");
+    bill.setAddress("calle 435");
+    bill.setClient("123423");
+    bill.setAmount(99.999);
+
+    when(fakeDataBase.searchById(any(String.class))).thenReturn(bill);
+
+    when(checker.finalBillUpdate(any(Bill.class), any(Bill.class))).thenReturn(null);
+    String jsonBill = new ObjectMapper().writeValueAsString(bill);
+    mockMvc
+        .perform(MockMvcRequestBuilders.put("/api/bills").contentType(MediaType.APPLICATION_JSON).content(jsonBill)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(1))).andExpect(
+            MockMvcResultMatchers.jsonPath("$.Message").value("change impossible, the time of change was exhausted"));
+
+    ;
+
+  }
+
+  @WithMockUser("admin")
+  @Test
+  @DisplayName("Should modific existing bill with less price total when making PUT request to endpoit - /api/bills")
+  public void should_Update_Bill_Price_less_total() throws Exception {
+
+    Bill bill = new Bill();
+    bill.setId("12323");
+    bill.setAddress("calle 435");
+    bill.setClient("123423");
+    bill.setAmount(99.999);
+
+    when(fakeDataBase.searchById(any(String.class))).thenReturn(bill);
+
+    when(checker.finalBillUpdate(any(Bill.class), any(Bill.class))).thenReturn(bill);
+    String jsonBill = new ObjectMapper().writeValueAsString(bill);
+    mockMvc
+        .perform(MockMvcRequestBuilders.put("/api/bills").contentType(MediaType.APPLICATION_JSON).content(jsonBill)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(1)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.Message").value("the amount is low "));
 
     ;
 

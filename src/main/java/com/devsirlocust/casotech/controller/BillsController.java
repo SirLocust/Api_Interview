@@ -78,6 +78,10 @@ public class BillsController {
       response.put("Message", "change impossible, the time of change was exhausted");
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    if (billCheck.equals(oldBill)) {
+      response.put("Message", "the amount is low ");
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
     Bill billUpdated = fakeDataBase.update(newBill);
     if (billUpdated == null) {
       response.put("Message", "error , item not has saved");

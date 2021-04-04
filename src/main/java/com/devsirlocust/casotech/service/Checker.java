@@ -38,8 +38,7 @@ public class Checker {
       return null;
     }
     if (oldBill.getAmount() > newBill.getAmount()) {
-
-      return null;
+      return oldBill;
     }
     if (newBill.getAmount() > 100_000) {
       newBill.setPriceDelivery(0);

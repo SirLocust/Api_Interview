@@ -12,7 +12,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.LessOrEqual;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 class CheckerTest {
@@ -32,7 +32,6 @@ class CheckerTest {
   void should_Compare_Two_Hours() {
     billOld = new Bill();
     billNew = new Bill();
-    // checker = new Checker();
     billOld.setDate(LocalDateTime.now());
     billNew.setDate(billOld.getDate().plusHours(5));
 
