@@ -285,7 +285,6 @@ change the "amount"
         "id": "12346",
         "amount": 93333.0
   }
-
 ```
 
 - Dado que un cliente quiere agregar a su pedido un nuevo producto cuando el pedido era por valor
@@ -296,8 +295,7 @@ change the "amount"
 	{
         "id": "34567",
         "amount": 105333.0
-  },
-
+  }
 ```
 
 - Como dueño del almacén quiero que mis clientes puedan editar el pedido si este fue creado no antes de 5
@@ -307,8 +305,7 @@ change the "amount"
 	{
         "id": "34562",
         "amount": 89000.0
-  },
-
+  }
 ```
 
 ## Case 3
