@@ -39,7 +39,7 @@ public class BillsController {
   @PostMapping("/bills")
   public ResponseEntity<?> save(@RequestBody Bill bill) {
     Map<String, Object> response = new HashMap<>();
-    if (bill.getClient() == null || bill.getAddress() == null || bill.getAmount() == 0) {
+    if (bill.getClient() == null || bill.getAddress() == null) {
       response.put("Message", "the bill need a client and an address");
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
