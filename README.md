@@ -278,9 +278,9 @@ change the "amount"
 
 ```
 
-Dado que un cliente quiere agregar a su pedido un nuevo producto cuando el pedido era por valor
-de 70 mil pesos y al agregar el nuevo producto el pedido pasa de 100 mil pesos entonces el sistema
-debe de restar el valor del domicilio.
+- Dado que un cliente quiere agregar a su pedido un nuevo producto cuando el pedido era por valor
+  de 70 mil pesos y al agregar el nuevo producto el pedido pasa de 100 mil pesos entonces el sistema
+  debe de restar el valor del domicilio.
 
 ```
 	{
