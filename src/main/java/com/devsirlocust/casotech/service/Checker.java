@@ -34,18 +34,26 @@ public class Checker {
   }
 
   public Bill finalBillUpdate(Bill oldBill, Bill newBill) {
+    newBill.setDate(LocalDateTime.now());
     if (compareToHours(oldBill.getDate(), newBill.getDate()) > 300) {
       return null;
     }
     if (oldBill.getAmount() > newBill.getAmount()) {
       return oldBill;
     }
+    toolUpdateBill(oldBill, newBill);
     if (newBill.getAmount() > 100_000) {
       newBill.setPriceDelivery(0);
     }
+    return newBill;
+  }
+
+  private void toolUpdateBill(Bill oldBill, Bill newBill) {
+    newBill.setPriceDelivery(oldBill.getPriceDelivery());
+    newBill.setClient(oldBill.getClient());
+    newBill.setAddress(oldBill.getAddress());
     newBill.generateIVA(this.IVA);
     newBill.generateTotalAmount();
-    return newBill;
   }
 
   public long compareToHours(final LocalDateTime oldTime, final LocalDateTime newTime) {

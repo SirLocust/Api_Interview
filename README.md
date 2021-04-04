@@ -62,7 +62,7 @@ return basic data user and token type JWT
 
      GET  /bills
      POST /bills
-     PUT  /list
+     PUT  /bills
      DELETE /bills
 
 # GET /bills
@@ -264,16 +264,23 @@ data was generated for ease of manual testing
 
 ## Case 2.2
 
-use the following registrys to test CASES
+use the following registry to test CASES
 change the "amount"
+
+- Dado que un cliente quiere editar su pedido cuando no han trascurrido más de 5 horas entonces el
+  sistema debe dejarlo editar si los productos seleccionados cuestan igual o más que los anteriores.
 
 ```
 	{
         "id": "12346",
-        "amount": 93333.0,
-  },
+        "amount": 93333.0
+  }
 
 ```
+
+Dado que un cliente quiere agregar a su pedido un nuevo producto cuando el pedido era por valor
+de 70 mil pesos y al agregar el nuevo producto el pedido pasa de 100 mil pesos entonces el sistema
+debe de restar el valor del domicilio.
 
 ```
 	{
@@ -289,12 +296,18 @@ use the following registrys to test CASES
 
 Less That 12 Hours
 
-```
-	localhost:8080/api/45679
-```
-
-Less That 12 Hours
+- Dado que un cliente quiere eliminar su pedido cuando no han pasado más de 12 horas entonces el
+  sistema debe dejarlo eliminar.
 
 ```
-	localhost:8080/api/45678
+	localhost:8080/api/bills/45679
+```
+
+More That 12 Hours
+
+- Dado que un cliente quiere eliminar su pedido cuando han pasado más de 12 horas entonces el
+  sistema debe de facturarle el 10% del valor del pedido y cancelar el pedido.
+
+```
+	localhost:8080/api/bills/45678
 ```

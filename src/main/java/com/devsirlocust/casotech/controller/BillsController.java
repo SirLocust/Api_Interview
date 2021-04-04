@@ -60,13 +60,12 @@ public class BillsController {
   @PutMapping("/bills")
   public ResponseEntity<?> update(@RequestBody Bill newBill) {
     Map<String, Object> response = new HashMap<>();
-    Bill oldBill = fakeDataBase.searchById(newBill.getId());
 
-    if (newBill.getClient() == null || newBill.getAddress() == null || newBill.getId() == null
-        || newBill.getAmount() == 0) {
-      response.put("Message", "the bill need a id,client,address and amount");
+    if (newBill.getId() == null || newBill.getAmount() == 0) {
+      response.put("Message", "the bill need a id and amount");
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    Bill oldBill = fakeDataBase.searchById(newBill.getId());
 
     if (oldBill == null) {
       response.put("Message", "Bill not found,verify your id bill");
