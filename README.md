@@ -281,10 +281,10 @@ change the "amount"
   sistema debe dejarlo editar si los productos seleccionados cuestan igual o más que los anteriores.
 
 ```
-	{
-        "id": "12346",
-        "amount": 93333.0
-  }
+{
+    "id": "12346",
+    "amount": 93333.0
+}
 ```
 
 - Dado que un cliente quiere agregar a su pedido un nuevo producto cuando el pedido era por valor
@@ -292,20 +292,20 @@ change the "amount"
   debe de restar el valor del domicilio.
 
 ```
-	{
-        "id": "34567",
-        "amount": 105333.0
-  }
+{
+    "id": "34567",
+    "amount": 105333.0
+}
 ```
 
 - Como dueño del almacén quiero que mis clientes puedan editar el pedido si este fue creado no antes de 5
   horas. (request outside range time )
 
 ```
-	{
-        "id": "34562",
-        "amount": 89000.0
-  }
+{
+    "id": "34562",
+    "amount": 89000.0
+}
 ```
 
 ## Case 3
